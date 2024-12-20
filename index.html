@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Planner</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Running Planner</h1>
+        
+        <!-- Location Search -->
+        <div class="location-search">
+            <input type="text" id="locationInput" placeholder="Enter location...">
+            <button id="searchButton">Search</button>
+            <button id="useLocationButton">My Location</button>
+        </div>
+
+        <!-- Single Controls Section -->
+        <div id="controlsSection"></div>
+
+        <!-- Location Display -->
+        <div id="locationDisplay" class="location-display"></div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <button class="tab-button active" data-tab="today">Today</button>
+            <button class="tab-button" data-tab="tomorrow">Tomorrow</button>
+            <button class="tab-button" data-tab="day3">Day After</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="today-tab" class="tab-content active"></div>
+        <div id="tomorrow-tab" class="tab-content"></div>
+        <div id="day3-tab" class="tab-content"></div>
+    </div>
+
+    <!-- Load dependencies first -->
+    <script src="js/preferences.js"></script>
+    <script src="js/weather.js"></script>
+    <script src="js/location.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Initialize after all scripts are loaded -->
+    <script>
+        // Wait for DOM content to be loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Clear any existing controls first
+            const controlsSection = document.getElementById('controlsSection');
+            if (controlsSection) {
+                controlsSection.innerHTML = '';
+            }
+            
+            console.log('DOM loaded, initializing services...');
+            
+            // Initialize in correct order
+            if (!window.weatherService) {
+                console.log('Initializing WeatherService...');
+                window.weatherService = new WeatherService();
+            }
+            
+            if (!window.locationService) {
+                console.log('Initializing LocationService...');
+                window.locationService = new LocationService();
+            }
+            
+            if (!window.app) {
+                console.log('Initializing AppUI...');
+                window.app = new AppUI();
+            }
+            
+            console.log('All services initialized');
+        });
+    </script>
+</body>
+</html> 
