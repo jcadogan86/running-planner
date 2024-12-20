@@ -230,8 +230,14 @@ class AppUI {
                 return [...data].sort((a, b) => a.windSpeed - b.windSpeed);
             case 'score':
                 return [...data].sort((a, b) => {
-                    const scoreA = window.weatherService.calculateRunnabilityScore(a, this.preferencesManager.getPreferences());
-                    const scoreB = window.weatherService.calculateRunnabilityScore(b, this.preferencesManager.getPreferences());
+                    const scoreA = window.weatherService.calculateRunnabilityScore(a, {
+                        ...this.preferencesManager.getPreferences(),
+                        considerRain: !this.ignoreRain
+                    });
+                    const scoreB = window.weatherService.calculateRunnabilityScore(b, {
+                        ...this.preferencesManager.getPreferences(),
+                        considerRain: !this.ignoreRain
+                    });
                     return scoreB - scoreA; // Highest first
                 });
             case 'time':
